@@ -101,21 +101,11 @@ extension Bool : _ExpressibleByBuiltinBooleanLiteral, ExpressibleByBooleanLitera
   }
 }
 
-extension Bool : Boolean {
+extension Bool {
   @_transparent
-  public func _getBuiltinLogicValue() -> Builtin.Int1 {
+  public // COMPILER_INTRINSIC
+  func _getBuiltinLogicValue() -> Builtin.Int1 {
     return _value
-  }
-
-  /// This value expressed as a `Bool` instance; its value is identical to that
-  /// of the current instance.
-  @_transparent public var boolValue: Bool { return self }
-
-  /// Creates an instance representing the given logical value.
-  ///
-  /// - Parameter value: The logical value for the new instance.
-  public init<T : Boolean>(_ value: T) {
-    self = value.boolValue
   }
 }
 
@@ -148,7 +138,6 @@ extension Bool : Equatable, Hashable {
 
 //===----------------------------------------------------------------------===//
 // Operators
-//===----------------------------------------------------------------------===//
 
 /// Performs a logical NOT operation on a Boolean value.
 ///

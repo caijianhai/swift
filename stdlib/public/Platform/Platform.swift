@@ -29,7 +29,6 @@ public struct DarwinBoolean : ExpressibleByBooleanLiteral {
     self._value = value ? 1 : 0
   }
 
-  /// The value of `self`, expressed as a `Bool`.
   public var boolValue: Bool {
     return _value != 0
   }

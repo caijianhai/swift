@@ -447,16 +447,10 @@ public func expectRandomAccessCollectionAssociatedTypes<X : RandomAccessCollecti
   X.Indices.Iterator.Element == X.Index,
   X.Indices.Index == X.Index,
   X.Indices.SubSequence == X.Indices {}
-  
-public func expectIsBooleanType<X : Boolean>(_ x: inout X) -> X { return x }
 
 public struct AssertionResult : CustomStringConvertible {
   init(isPass: Bool) {
     self._isPass = isPass
-  }
-
-  public var boolValue: Bool {
-    return _isPass
   }
 
   public func withDescription(_ description: String) -> AssertionResult {
@@ -487,16 +481,19 @@ public func expectUnreachableCatch(_ error: Error, ${TRACE}) {
     "error should not be thrown: \"\(error)\"", trace: ${trace})
 }
 
-%for BoolType in ['Bool', 'AssertionResult']:
+%for (BoolType, expr) in [
+%  ('Bool', 'actual'),
+%  ('AssertionResult', 'actual._isPass')
+%]:
 
 public func expectTrue(_ actual: ${BoolType}, ${TRACE}) {
-  if !actual.boolValue {
+  if !${expr} {
     expectationFailure("expected: true", trace: ${trace})
   }
 }
 
 public func expectFalse(_ actual: ${BoolType}, ${TRACE}) {
-  if actual.boolValue {
+  if ${expr} {
     expectationFailure("expected: false", trace: ${trace})
   }
 }
